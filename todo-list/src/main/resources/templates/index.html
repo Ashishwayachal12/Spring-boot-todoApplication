@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>ToDo App</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="todo-container">
+    <h2>ToDo List</h2>
+
+    <div class="todo-input-section">
+      <form th:action="@{/add}" method="post">
+        <input type="text" name="title" placeholder="Add new task" required />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+
+    <ul class="todo-list">
+      <li th:each="todo : ${todos}" th:classappend="${todo.completed} ? 'completed'">
+        <form th:action="@{/toggle/{id}(id=${todo.id})}" method="post">
+          <input type="checkbox" th:checked="${todo.completed}" onchange="this.form.submit()" />
+        </form>
+        <span th:text="${todo.title}" style="flex: 1; padding-left: 10px;"></span>
+        <form th:action="@{/delete/{id}(id=${todo.id})}" method="post">
+          <button class="delete-btn" type="submit">&times;</button>
+        </form>
+      </li>
+    </ul>
+  </div>
+
+</body>
+</html>
